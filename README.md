@@ -15,6 +15,14 @@
 
 Follow the [Setup](https://rustwasm.github.io/book/game-of-life/setup.html) guide from the official book.
 
+### **Design**
+
+![glider](https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Glider.svg/220px-Glider.svg.png)
+
+**Infinite Universe**
+
+> Fixed-size, periodic universe, where cells on the edges have neighbors that wrap around to the other side of the universe. Because neighbors wrap around the edges of the universe, gliders can keep running forever.
+
 ### **Doc**
 
 + [WebAssembly](https://webassembly.org/)
