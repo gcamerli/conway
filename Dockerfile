@@ -1,28 +1,46 @@
 FROM rust:latest
 
-# Metadata
+# metadata
 LABEL mantainer="Gius. Camerlingo <gcamerli@gmail.com>"
 LABEL version="1.0"
 LABEL description="Docker container for rust and wasm."
 
-# Docker image name
+# docker image name
 ENV NAME=wasm
 
-# Timezone
+# timezone
 ENV TZ="Europe/Paris"
 
 # system update
 RUN apt-get update
 RUN apt-get install -y vim \
 	git \
-	zsh \
+	sudo \
 	nodejs
+
+# system clean
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # wasm pack
 RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 # cargo generate
 RUN cargo install cargo-generate
+
+# user
+RUN echo "crab ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN useradd -ms /bin/bash crab
+USER crab
+ENV HOME=/home/crab
+WORKDIR $HOME
+
+# term
+ENV TERM=xterm
+
+# healthcheck
+COPY config/healthcheck /usr/local/bin/
+RUN sudo chmod 744 /usr/local/bin/healthcheck
 
 # port
 EXPOSE 8080
