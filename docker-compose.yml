@@ -3,14 +3,16 @@ version: '3.6'
 services:
   web:
     image: wasm:latest
-    user: crab
     hostname: conway
     pid: host
     restart: always
     ports:
       - "8080:8080"
-    command: "npm run start"
     container_name: conway
+    entrypoint: "./entrypoint.sh"
+    volumes:
+      - ./:/conway
+    working_dir: /conway
     networks:
       net:
         aliases:
