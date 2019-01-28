@@ -1,0 +1,28 @@
+version: '3.6'
+
+services:
+  web:
+    image: wasm:latest
+    user: crab
+    hostname: conway
+    pid: host
+    restart: always
+    ports:
+      - "8080:8080"
+    command: "npm run start"
+    container_name: conway
+    networks:
+      net:
+        aliases:
+          - web
+        ipv4_address: 172.42.0.2
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+networks:
+  net:
+    external:
+      name: web
