@@ -1,0 +1,16 @@
+# backup
+**/*.rs.bk
+
+# cargo
+Cargo.lock
+
+# build
+bin/
+pkg/
+target/
+
+# log
+wasm-pack.log
+
+# npm
+web
