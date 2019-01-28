@@ -15,8 +15,11 @@ ENV TZ="Europe/Paris"
 RUN apt-get update
 RUN apt-get install -y vim \
 	git \
-	sudo \
-	nodejs
+	build-essential
+
+# nodejs
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN  apt-get install -y nodejs
 
 # system clean
 RUN apt-get clean
@@ -28,19 +31,12 @@ RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 # cargo generate
 RUN cargo install cargo-generate
 
-# user
-RUN echo "crab ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-RUN useradd -ms /bin/bash crab
-USER crab
-ENV HOME=/home/crab
-WORKDIR $HOME
-
 # term
 ENV TERM=xterm
 
 # healthcheck
 COPY config/healthcheck /usr/local/bin/
-RUN sudo chmod 744 /usr/local/bin/healthcheck
+RUN chmod 744 /usr/local/bin/healthcheck
 
 # port
 EXPOSE 8080
